@@ -1,5 +1,5 @@
 # stm32driver
-stm32底盘电机驱动
+stm32底盘电机驱动  
 ![avatar](./Image/0.jpg)
 ## 一、功能
 - 1、搭载FreeRTOS
@@ -7,13 +7,13 @@ stm32底盘电机驱动
 - 3、I2C显示屏（电机参数）
 - 4、增量式PI控制器（直流编码电机）
 ## 二、整体架构
-- IO布置
+- IO布置  
 ![avatar](./Image/3.jpg)
-- FreeRTOSHeapUsage
+- FreeRTOSHeapUsage  
 ![avatar](./Image/4.jpg)
-- 功能性初始化
+- 功能性初始化  
 ![avatar](./Image/2.jpg)
-- FreeRTOS运行时序
+- FreeRTOS运行时序  
 ![avatar](./Image/1.jpg)
 ## 三、应用外设
 - SystemCore
