@@ -49,6 +49,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
+uint16_t usartCnt = 0;
+uint16_t beforeCnt = 0;
+uint8_t checkTime = 0;
 
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
@@ -82,7 +85,6 @@ const osThreadAttr_t myTaskUsart_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-int count = -100;
 // TaskMotor======================================================================
 motorInfoType motorInfo[2];
 void para_init(){
@@ -91,6 +93,17 @@ void para_init(){
     motorInfo[i].PWM = 0;
     motorInfo[i].ADD = 0;
     motorInfo[i].TGT = 0;
+  }
+}
+void check_timeout(){
+  if(checkTime++ == 25){
+    checkTime = 0;
+    if(beforeCnt == usartCnt){
+      motorInfo[0].TGT = 0;
+      motorInfo[1].TGT = 0;
+    } else{
+      beforeCnt = usartCnt;
+    }
   }
 }
 // TaskDisplay======================================================================
@@ -128,72 +141,10 @@ void OLED_flash_data(){
 }
 // TaskUsart======================================================================
 void user_API(uint8_t temp[], uint8_t temp_len){
-  uint8_t i=0;
-  int t0=0;
-  int t1=0;
-  int t2=0;
-  if(temp[i]=='['){
-    i++;
-    t0+=(temp[i]-'0')*10;
-    i++;
-    t0+=(temp[i]-'0');
-    i++;
-    if(temp[i]=='+'){
-      i++;
-      t1+=(temp[i]-'0');
-    } else if (temp[i]=='-'){
-      i++;
-      t1-=(temp[i]-'0');
-    }
-    i++;
-    if(temp[i]=='+'){
-      i++;
-      t2+=(temp[i]-'0');
-    } else if (temp[i]=='-'){
-      i++;
-      t2-=(temp[i]-'0');
-    }
-    i++;
-    if(temp[i]==']'){
-      if(t1==-1 && t2==-1){  // -1 0
-        motorInfo[0].TGT = -t0;
-        motorInfo[1].TGT = 0;
-      }
-      if(t1==-1 && t2==0){  // -1 -1
-        motorInfo[0].TGT = -t0;
-        motorInfo[1].TGT = t0;
-      }
-      if(t1==-1 && t2==1){  // 0 -1
-        motorInfo[0].TGT = 0;
-        motorInfo[1].TGT = t0;
-      }
-
-      if(t1==0 && t2==-1){ // 1 -1
-        motorInfo[0].TGT = t0;
-        motorInfo[1].TGT = t0;
-      }
-      if(t1==0 && t2==0){  // 0 0
-        motorInfo[0].TGT = 0;
-        motorInfo[1].TGT = 0;
-      }
-      if(t1==0 && t2==1){  // -1 1
-        motorInfo[0].TGT = -t0;
-        motorInfo[1].TGT = -t0;
-      }
-
-      if(t1==1 && t2==-1){  // 1 0
-        motorInfo[0].TGT = t0;
-        motorInfo[1].TGT = 0;
-      }
-      if(t1==1 && t2==0){  // 1 1
-        motorInfo[0].TGT = t0;
-        motorInfo[1].TGT = -t0;
-      }
-      if(t1==1 && t2==1) {  // 0 1
-        motorInfo[0].TGT = 0;
-        motorInfo[1].TGT = -t0;
-      }
-    }
+  if(temp[0]=='[' && temp[3]==']'){
+    motorInfo[0].TGT = temp[1]-128;
+    motorInfo[1].TGT = 128-temp[2];
+    if(usartCnt++ == 60000) usartCnt=0;
   }
 
   DMA_Usart3_Send(rx3_buffer, rx3_len);
@@ -293,11 +244,14 @@ void StartTaskMotor(void *argument)
   /* Infinite loop */
   for(;;)
   {
+    check_timeout();
     check_ENC(&motorInfo[0], &motorInfo[1]);
 //    plus_ADD(&motorInfo[0], &motorInfo[1]);
     incremental_PI_A(&motorInfo[0]);
     incremental_PI_B(&motorInfo[1]);
     range_PWM(&motorInfo[0], &motorInfo[1], 7000);
+    if(motorInfo[0].TGT==0) motorInfo[0].PWM = 0;
+    if(motorInfo[1].TGT==0) motorInfo[1].PWM = 0;
     set_PWM(&motorInfo[0], &motorInfo[1]);
     osDelay(10);
   }
