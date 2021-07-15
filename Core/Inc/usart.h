@@ -32,20 +32,20 @@
 
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart3;
+extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
 #define BUFFER_SIZE  100
 /* USER CODE END Private defines */
 
-void MX_USART3_UART_Init(void);
+void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-extern volatile uint8_t rx3_len;  // 接收�?????帧数据的长度
-extern volatile uint8_t rec3_end_flag; // �?????帧数据接收完成标�?????
-extern uint8_t rx3_buffer[BUFFER_SIZE];  // 接收数据缓存数组
-void DMA_Usart3_Send(uint8_t *buf,uint8_t len);// 串口发�?�封�?????
-void Usart3_IDLE(void);
+extern volatile uint8_t rx_len;  // 接收�???????帧数据的长度
+extern volatile uint8_t rec_end_flag; // �???????帧数据接收完成标�???????
+extern uint8_t rx_buffer[BUFFER_SIZE];  // 接收数据缓存数组
+void DMA_Usart_Send(uint8_t *buf, uint8_t len);// 串口发�?�封�???????
+void Usart_IDLE(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

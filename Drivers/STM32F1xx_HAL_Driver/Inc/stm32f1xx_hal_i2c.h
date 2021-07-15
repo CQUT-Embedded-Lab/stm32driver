@@ -353,7 +353,7 @@ typedef  void (*pI2C_AddrCallbackTypeDef)(I2C_HandleTypeDef *hi2c, uint8_t Trans
 #define  I2C_LAST_FRAME                 0x00000020U
 
 /* List of XferOptions in usage of :
- * 1- Restart condition in all use cases (direction show_info or not)
+ * 1- Restart condition in all use cases (direction change or not)
  */
 #define  I2C_OTHER_FRAME                (0x00AA0000U)
 #define  I2C_OTHER_AND_LAST_FRAME       (0xAA000000U)

@@ -14,16 +14,16 @@ uint8_t CMD_Data[]={
 void WriteCmd(void){
     uint8_t i = 0;
     for(i=0; i<27; i++){
-        HAL_I2C_Mem_Write(&hi2c1 ,0x78,0x00,I2C_MEMADD_SIZE_8BIT,CMD_Data+i,1,0x100);
+        HAL_I2C_Mem_Write(&hi2c2 ,0x78,0x00,I2C_MEMADD_SIZE_8BIT,CMD_Data+i,1,0x100);
     }
 }
 //向设备写控制命令
 void OLED_WR_CMD(uint8_t cmd){
-    HAL_I2C_Mem_Write(&hi2c1 ,0x78,0x00,I2C_MEMADD_SIZE_8BIT,&cmd,1,0x100);
+    HAL_I2C_Mem_Write(&hi2c2 ,0x78,0x00,I2C_MEMADD_SIZE_8BIT,&cmd,1,0x100);
 }
 //向设备写数据
 void OLED_WR_DATA(uint8_t data){
-    HAL_I2C_Mem_Write(&hi2c1,0x78,0x40,I2C_MEMADD_SIZE_8BIT,&data,1,0x100);
+    HAL_I2C_Mem_Write(&hi2c2,0x78,0x40,I2C_MEMADD_SIZE_8BIT,&data,1,0x100);
 }
 //初始化oled屏幕
 void OLED_Init(void){

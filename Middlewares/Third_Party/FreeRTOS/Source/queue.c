@@ -522,7 +522,7 @@ static void prvInitialiseNewQueue( const UBaseType_t uxQueueLength, const UBaseT
 		/* This function is called by xSemaphoreGetMutexHolder(), and should not
 		be called directly.  Note:  This is a good way of determining if the
 		calling task is the mutex holder, but not a good way of determining the
-		identity of the mutex holder, as the holder may show_info between the
+		identity of the mutex holder, as the holder may change between the
 		following critical section exiting and the function returning. */
 		taskENTER_CRITICAL();
 		{
@@ -552,7 +552,7 @@ static void prvInitialiseNewQueue( const UBaseType_t uxQueueLength, const UBaseT
 		configASSERT( xSemaphore );
 
 		/* Mutexes cannot be used in interrupt service routines, so the mutex
-		holder should not show_info in an ISR, and therefore a critical section is
+		holder should not change in an ISR, and therefore a critical section is
 		not required here. */
 		if( ( ( Queue_t * ) xSemaphore )->uxQueueType == queueQUEUE_IS_MUTEX )
 		{
@@ -579,7 +579,7 @@ static void prvInitialiseNewQueue( const UBaseType_t uxQueueLength, const UBaseT
 		configASSERT( pxMutex );
 
 		/* If this is the task that holds the mutex then pxMutexHolder will not
-		show_info outside of this task.  If this task does not hold the mutex then
+		change outside of this task.  If this task does not hold the mutex then
 		pxMutexHolder can never coincidentally equal the tasks handle, and as
 		this is the only condition we are interested in it does not matter if
 		pxMutexHolder is accessed simultaneously by another task.  Therefore no

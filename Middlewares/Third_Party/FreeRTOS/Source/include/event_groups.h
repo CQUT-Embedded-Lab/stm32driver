@@ -435,7 +435,7 @@ EventBits_t xEventGroupClearBits( EventGroupHandle_t xEventGroup, const EventBit
  * blocked state then it is possible the bit will be cleared automatically
  * (see the xClearBitOnExit parameter of xEventGroupWaitBits()).  Second, any
  * unblocked (or otherwise Ready state) task that has a priority above that of
- * the task that called xEventGroupSetBits() will execute and may show_info the
+ * the task that called xEventGroupSetBits() will execute and may change the
  * event group value before the call to xEventGroupSetBits() returns.
  *
  * Example usage:

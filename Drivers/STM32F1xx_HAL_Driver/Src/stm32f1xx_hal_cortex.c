@@ -49,12 +49,12 @@
         (++) Enables the SysTick Interrupt.
         (++) Starts the SysTick Counter.
     
-   (+) You can show_info the SysTick Clock source to be HCLK_Div8 by calling the macro
+   (+) You can change the SysTick Clock source to be HCLK_Div8 by calling the macro
        __HAL_CORTEX_SYSTICKCLK_CONFIG(SYSTICK_CLKSOURCE_HCLK_DIV8) just after the
        HAL_SYSTICK_Config() function call. The __HAL_CORTEX_SYSTICKCLK_CONFIG() macro is defined
        inside the stm32f1xx_hal_cortex.h file.
 
-   (+) You can show_info the SysTick IRQ priority by calling the
+   (+) You can change the SysTick IRQ priority by calling the
        HAL_NVIC_SetPriority(SysTick_IRQn,...) function just after the HAL_SYSTICK_Config() function 
        call. The HAL_NVIC_SetPriority() call the NVIC_SetPriority() function which is a CMSIS function.
 

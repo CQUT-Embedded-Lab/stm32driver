@@ -148,7 +148,7 @@ typedef enum
    ------------
    RAM functions are defined using the toolchain options.
    Functions that are executed in RAM should reside in a separate source module.
-   Using the 'Options for File' dialog you can simply show_info the 'Code / Const'
+   Using the 'Options for File' dialog you can simply change the 'Code / Const'
    area of a module to a memory space in physical RAM.
    Available memory areas are declared in the 'Target' tab of the 'Options for Target'
    dialog.

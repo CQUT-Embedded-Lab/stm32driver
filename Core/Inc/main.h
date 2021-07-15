@@ -58,28 +58,26 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED_Pin GPIO_PIN_1
-#define LED_GPIO_Port GPIOC
-#define MA2_Pin GPIO_PIN_0
-#define MA2_GPIO_Port GPIOA
+#define MB1_Pin GPIO_PIN_0
+#define MB1_GPIO_Port GPIOA
 #define MB2_Pin GPIO_PIN_1
 #define MB2_GPIO_Port GPIOA
-#define AIN2_Pin GPIO_PIN_4
-#define AIN2_GPIO_Port GPIOA
-#define AIN1_Pin GPIO_PIN_5
-#define AIN1_GPIO_Port GPIOA
-#define PWMA_Pin GPIO_PIN_6
-#define PWMA_GPIO_Port GPIOA
-#define PWMB_Pin GPIO_PIN_7
-#define PWMB_GPIO_Port GPIOA
-#define BIN1_Pin GPIO_PIN_4
-#define BIN1_GPIO_Port GPIOC
-#define BIN2_Pin GPIO_PIN_5
-#define BIN2_GPIO_Port GPIOC
+#define PWMA1_Pin GPIO_PIN_6
+#define PWMA1_GPIO_Port GPIOA
+#define PWMA2_Pin GPIO_PIN_7
+#define PWMA2_GPIO_Port GPIOA
+#define PWMB1_Pin GPIO_PIN_0
+#define PWMB1_GPIO_Port GPIOB
+#define PWMB2_Pin GPIO_PIN_1
+#define PWMB2_GPIO_Port GPIOB
+#define KEY_Pin GPIO_PIN_11
+#define KEY_GPIO_Port GPIOA
+#define LED_Pin GPIO_PIN_2
+#define LED_GPIO_Port GPIOD
 #define MA1_Pin GPIO_PIN_6
 #define MA1_GPIO_Port GPIOB
-#define MA2B7_Pin GPIO_PIN_7
-#define MA2B7_GPIO_Port GPIOB
+#define MA2_Pin GPIO_PIN_7
+#define MA2_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

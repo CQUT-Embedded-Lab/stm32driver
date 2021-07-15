@@ -86,7 +86,7 @@
     ==========================================================
     [..]
       (@) These interfaces allow to manage a sequential transfer with a repeated start condition
-          when a direction show_info during transfer
+          when a direction change during transfer
     [..]
       (+) A specific option field manage the different steps of a sequential transfer
       (+) Option field values are defined through @ref I2C_XferOptions_definition and are listed below:
@@ -98,11 +98,11 @@
                             several times (like @ref HAL_I2C_Master_Seq_Transmit_IT() then @ref HAL_I2C_Master_Seq_Transmit_IT()
                             or @ref HAL_I2C_Master_Seq_Transmit_DMA() then @ref HAL_I2C_Master_Seq_Transmit_DMA())
       (++) I2C_NEXT_FRAME: Sequential usage, this option allow to manage a sequence with a restart condition, address
-                            and with new data to transfer if the direction show_info or manage only the new data to transfer
-                            if no direction show_info and without a final stop condition in both cases
+                            and with new data to transfer if the direction change or manage only the new data to transfer
+                            if no direction change and without a final stop condition in both cases
       (++) I2C_LAST_FRAME: Sequential usage, this option allow to manage a sequance with a restart condition, address
-                            and with new data to transfer if the direction show_info or manage only the new data to transfer
-                            if no direction show_info and with a final stop condition in both cases
+                            and with new data to transfer if the direction change or manage only the new data to transfer
+                            if no direction change and with a final stop condition in both cases
       (++) I2C_LAST_FRAME_NO_STOP: Sequential usage (Master only), this option allow to manage a restart condition after several call of the same master sequential
                             interface several times (link with option I2C_FIRST_AND_NEXT_FRAME).
                             Usage can, transfer several bytes one by one using HAL_I2C_Master_Seq_Transmit_IT(option I2C_FIRST_AND_NEXT_FRAME then I2C_NEXT_FRAME)
@@ -3448,7 +3448,7 @@ HAL_StatusTypeDef HAL_I2C_IsDeviceReady(I2C_HandleTypeDef *hi2c, uint16_t DevAdd
 
 /**
   * @brief  Sequential transmit in master I2C mode an amount of data in non-blocking mode with Interrupt.
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  DevAddress Target device address: The device 7 bits address value
@@ -3518,7 +3518,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Transmit_IT(I2C_HandleTypeDef *hi2c, uint16
 
     Prev_State = hi2c->PreviousState;
 
-    /* If transfer direction not show_info and there is no request to start another frame, do not generate Restart Condition */
+    /* If transfer direction not change and there is no request to start another frame, do not generate Restart Condition */
     /* Mean Previous state is same as current state */
     if ((Prev_State != I2C_STATE_MASTER_BUSY_TX) || (IS_I2C_TRANSFER_OTHER_OPTIONS_REQUEST(XferOptions) == 1))
     {
@@ -3546,7 +3546,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Transmit_IT(I2C_HandleTypeDef *hi2c, uint16
 
 /**
   * @brief  Sequential transmit in master I2C mode an amount of data in non-blocking mode with DMA.
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  DevAddress Target device address: The device 7 bits address value
@@ -3637,7 +3637,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint1
         /* Enable Acknowledge */
         SET_BIT(hi2c->Instance->CR1, I2C_CR1_ACK);
 
-        /* If transfer direction not show_info and there is no request to start another frame, do not generate Restart Condition */
+        /* If transfer direction not change and there is no request to start another frame, do not generate Restart Condition */
         /* Mean Previous state is same as current state */
         if ((Prev_State != I2C_STATE_MASTER_BUSY_TX) || (IS_I2C_TRANSFER_OTHER_OPTIONS_REQUEST(XferOptions) == 1))
         {
@@ -3683,7 +3683,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint1
       /* Enable Acknowledge */
       SET_BIT(hi2c->Instance->CR1, I2C_CR1_ACK);
 
-      /* If transfer direction not show_info and there is no request to start another frame, do not generate Restart Condition */
+      /* If transfer direction not change and there is no request to start another frame, do not generate Restart Condition */
       /* Mean Previous state is same as current state */
       if ((Prev_State != I2C_STATE_MASTER_BUSY_TX) || (IS_I2C_TRANSFER_OTHER_OPTIONS_REQUEST(XferOptions) == 1))
       {
@@ -3712,7 +3712,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint1
 
 /**
   * @brief  Sequential receive in master I2C mode an amount of data in non-blocking mode with Interrupt
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  DevAddress Target device address: The device 7 bits address value
@@ -3808,7 +3808,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Receive_IT(I2C_HandleTypeDef *hi2c, uint16_
       SET_BIT(hi2c->Instance->CR1, I2C_CR1_ACK);
     }
 
-    /* If transfer direction not show_info and there is no request to start another frame, do not generate Restart Condition */
+    /* If transfer direction not change and there is no request to start another frame, do not generate Restart Condition */
     /* Mean Previous state is same as current state */
     if ((Prev_State != I2C_STATE_MASTER_BUSY_RX) || (IS_I2C_TRANSFER_OTHER_OPTIONS_REQUEST(XferOptions) == 1))
     {
@@ -3836,7 +3836,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Receive_IT(I2C_HandleTypeDef *hi2c, uint16_
 
 /**
   * @brief  Sequential receive in master mode an amount of data in non-blocking mode with DMA
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  DevAddress Target device address: The device 7 bits address value
@@ -3959,7 +3959,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Receive_DMA(I2C_HandleTypeDef *hi2c, uint16
 
       if (dmaxferstatus == HAL_OK)
       {
-        /* If transfer direction not show_info and there is no request to start another frame, do not generate Restart Condition */
+        /* If transfer direction not change and there is no request to start another frame, do not generate Restart Condition */
         /* Mean Previous state is same as current state */
         if ((Prev_State != I2C_STATE_MASTER_BUSY_RX) || (IS_I2C_TRANSFER_OTHER_OPTIONS_REQUEST(XferOptions) == 1))
         {
@@ -4013,7 +4013,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Receive_DMA(I2C_HandleTypeDef *hi2c, uint16
       /* Enable Acknowledge */
       SET_BIT(hi2c->Instance->CR1, I2C_CR1_ACK);
 
-      /* If transfer direction not show_info and there is no request to start another frame, do not generate Restart Condition */
+      /* If transfer direction not change and there is no request to start another frame, do not generate Restart Condition */
       /* Mean Previous state is same as current state */
       if ((Prev_State != I2C_STATE_MASTER_BUSY_RX) || (IS_I2C_TRANSFER_OTHER_OPTIONS_REQUEST(XferOptions) == 1))
       {
@@ -4041,7 +4041,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Seq_Receive_DMA(I2C_HandleTypeDef *hi2c, uint16
 
 /**
   * @brief  Sequential transmit in slave mode an amount of data in non-blocking mode with Interrupt
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  pData Pointer to data buffer
@@ -4107,7 +4107,7 @@ HAL_StatusTypeDef HAL_I2C_Slave_Seq_Transmit_IT(I2C_HandleTypeDef *hi2c, uint8_t
 
 /**
   * @brief  Sequential transmit in slave mode an amount of data in non-blocking mode with DMA
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  pData Pointer to data buffer
@@ -4264,7 +4264,7 @@ HAL_StatusTypeDef HAL_I2C_Slave_Seq_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint8_
 
 /**
   * @brief  Sequential receive in slave mode an amount of data in non-blocking mode with Interrupt
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  pData Pointer to data buffer
@@ -4330,7 +4330,7 @@ HAL_StatusTypeDef HAL_I2C_Slave_Seq_Receive_IT(I2C_HandleTypeDef *hi2c, uint8_t 
 
 /**
   * @brief  Sequential receive in slave mode an amount of data in non-blocking mode with DMA
-  * @note   This interface allow to manage repeated start condition when a direction show_info during transfer
+  * @note   This interface allow to manage repeated start condition when a direction change during transfer
   * @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
   *         the configuration information for the specified I2C.
   * @param  pData Pointer to data buffer
@@ -6174,8 +6174,8 @@ static void I2C_ITError(I2C_HandleTypeDef *hi2c)
   }
   else
   {
-    /* If state is an abort treatment on going, don't show_info state */
-    /* This show_info will be do later */
+    /* If state is an abort treatment on going, don't change state */
+    /* This change will be do later */
     if ((READ_BIT(hi2c->Instance->CR2, I2C_CR2_DMAEN) != I2C_CR2_DMAEN) && (CurrentState != HAL_I2C_STATE_ABORT))
     {
       hi2c->State = HAL_I2C_STATE_READY;

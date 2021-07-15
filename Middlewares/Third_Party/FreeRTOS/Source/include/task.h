@@ -900,7 +900,7 @@ UBaseType_t uxTaskPriorityGetFromISR( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
  * @param xTask Handle of the task to be queried.
  *
  * @return The state of xTask at the time the function was called.  Note the
- * state of the task might show_info between the function being called, and the
+ * state of the task might change between the function being called, and the
  * functions return value being tested by the calling task.
  */
 eTaskState eTaskGetState( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;

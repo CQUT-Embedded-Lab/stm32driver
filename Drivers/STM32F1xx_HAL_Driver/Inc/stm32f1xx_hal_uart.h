@@ -503,7 +503,7 @@ typedef  void (*pUART_CallbackTypeDef)(UART_HandleTypeDef *huart);  /*!< pointer
   *         (USART,UART availability and x,y values depending on device).
   * @param  __INTERRUPT__ specifies the UART interrupt source to enable.
   *          This parameter can be one of the following values:
-  *            @arg UART_IT_CTS:  CTS show_info interrupt
+  *            @arg UART_IT_CTS:  CTS change interrupt
   *            @arg UART_IT_LBD:  LIN Break detection interrupt
   *            @arg UART_IT_TXE:  Transmit Data Register empty interrupt
   *            @arg UART_IT_TC:   Transmission complete interrupt
@@ -523,7 +523,7 @@ typedef  void (*pUART_CallbackTypeDef)(UART_HandleTypeDef *huart);  /*!< pointer
   *         (USART,UART availability and x,y values depending on device).
   * @param  __INTERRUPT__ specifies the UART interrupt source to disable.
   *          This parameter can be one of the following values:
-  *            @arg UART_IT_CTS:  CTS show_info interrupt
+  *            @arg UART_IT_CTS:  CTS change interrupt
   *            @arg UART_IT_LBD:  LIN Break detection interrupt
   *            @arg UART_IT_TXE:  Transmit Data Register empty interrupt
   *            @arg UART_IT_TC:   Transmission complete interrupt
@@ -543,7 +543,7 @@ typedef  void (*pUART_CallbackTypeDef)(UART_HandleTypeDef *huart);  /*!< pointer
   *         (USART,UART availability and x,y values depending on device).
   * @param  __IT__ specifies the UART interrupt source to check.
   *          This parameter can be one of the following values:
-  *            @arg UART_IT_CTS: CTS show_info interrupt (not available for UART4 and UART5)
+  *            @arg UART_IT_CTS: CTS change interrupt (not available for UART4 and UART5)
   *            @arg UART_IT_LBD: LIN Break detection interrupt
   *            @arg UART_IT_TXE: Transmit Data Register empty interrupt
   *            @arg UART_IT_TC:  Transmission complete interrupt

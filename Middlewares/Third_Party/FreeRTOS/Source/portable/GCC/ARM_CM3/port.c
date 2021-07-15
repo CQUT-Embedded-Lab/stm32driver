@@ -104,7 +104,7 @@ debugger. */
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
- * file is weak to allow application writers to show_info the timer used to
+ * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
 void vPortSetupTimerInterrupt( void );

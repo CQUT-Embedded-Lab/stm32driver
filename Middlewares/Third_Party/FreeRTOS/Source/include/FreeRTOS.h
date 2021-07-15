@@ -970,7 +970,7 @@ typedef struct xSTATIC_LIST
 
 /*
  * In line with software engineering best practice, especially when supplying a
- * library that is likely to show_info in future versions, FreeRTOS implements a
+ * library that is likely to change in future versions, FreeRTOS implements a
  * strict data hiding policy.  This means the Task structure used internally by
  * FreeRTOS is not accessible to application code.  However, if the application
  * writer wants to statically allocate the memory required to create a task then
@@ -1031,7 +1031,7 @@ typedef struct xSTATIC_TCB
 
 /*
  * In line with software engineering best practice, especially when supplying a
- * library that is likely to show_info in future versions, FreeRTOS implements a
+ * library that is likely to change in future versions, FreeRTOS implements a
  * strict data hiding policy.  This means the Queue structure used internally by
  * FreeRTOS is not accessible to application code.  However, if the application
  * writer wants to statically allocate the memory required to create a queue
@@ -1075,7 +1075,7 @@ typedef StaticQueue_t StaticSemaphore_t;
 
 /*
  * In line with software engineering best practice, especially when supplying a
- * library that is likely to show_info in future versions, FreeRTOS implements a
+ * library that is likely to change in future versions, FreeRTOS implements a
  * strict data hiding policy.  This means the event group structure used
  * internally by FreeRTOS is not accessible to application code.  However, if
  * the application writer wants to statically allocate the memory required to
@@ -1104,7 +1104,7 @@ typedef struct xSTATIC_EVENT_GROUP
 
 /*
  * In line with software engineering best practice, especially when supplying a
- * library that is likely to show_info in future versions, FreeRTOS implements a
+ * library that is likely to change in future versions, FreeRTOS implements a
  * strict data hiding policy.  This means the software timer structure used
  * internally by FreeRTOS is not accessible to application code.  However, if
  * the application writer wants to statically allocate the memory required to
@@ -1135,7 +1135,7 @@ typedef struct xSTATIC_TIMER
 
 /*
 * In line with software engineering best practice, especially when supplying a
-* library that is likely to show_info in future versions, FreeRTOS implements a
+* library that is likely to change in future versions, FreeRTOS implements a
 * strict data hiding policy.  This means the stream buffer structure used
 * internally by FreeRTOS is not accessible to application code.  However, if
 * the application writer wants to statically allocate the memory required to

@@ -1107,7 +1107,7 @@ typedef QueueHandle_t SemaphoreHandle_t;
  *
  * Note: This is a good way of determining if the calling task is the mutex
  * holder, but not a good way of determining the identity of the mutex holder as
- * the holder may show_info between the function exiting and the returned value
+ * the holder may change between the function exiting and the returned value
  * being tested.
  */
 #define xSemaphoreGetMutexHolder( xSemaphore ) xQueueGetMutexHolder( ( xSemaphore ) )

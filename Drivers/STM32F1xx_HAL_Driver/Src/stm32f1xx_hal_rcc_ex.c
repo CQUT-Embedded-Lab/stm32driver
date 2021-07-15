@@ -115,7 +115,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
 
     FlagStatus       pwrclkchanged = RESET;
 
-    /* As soon as function is called to show_info RTC clock source, activation of the
+    /* As soon as function is called to change RTC clock source, activation of the
        power domain is done. */
     /* Requires to enable write access to Backup Domain of necessary */
     if (__HAL_RCC_PWR_IS_CLK_DISABLED())
@@ -258,7 +258,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
     }
     else
     {
-      /* Return an error only if user wants to show_info the PLLI2SMUL whereas PLLI2S is active */
+      /* Return an error only if user wants to change the PLLI2SMUL whereas PLLI2S is active */
       if (READ_BIT(RCC->CFGR2, RCC_CFGR2_PLL3MUL) != PeriphClkInit->PLLI2S.PLLI2SMUL)
       {
         return HAL_ERROR;

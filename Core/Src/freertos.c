@@ -142,21 +142,21 @@ void OLED_flash_data(){
 // TaskUsart======================================================================
 void user_API(uint8_t temp[], uint8_t temp_len){
   if(temp[0]=='[' && temp[3]==']'){
-    motorInfo[0].TGT = temp[1]-128;
-    motorInfo[1].TGT = 128-temp[2];
+    motorInfo[0].TGT = 128-temp[1];
+    motorInfo[1].TGT = temp[2]-128;
     if(usartCnt++ == 60000) usartCnt=0;
   }
 
-  DMA_Usart3_Send(rx3_buffer, rx3_len);
+  DMA_Usart_Send(rx_buffer, rx_len);
 }
-void Usart3_Handle()     //USART2对接收的�?????帧数据进行处�?????
+void Usart_Handle()     //USART2对接收的�???????帧数据进行处�???????
 {
-  user_API(rx3_buffer, rx3_len);
+  user_API(rx_buffer, rx_len);
 
-  rx3_len = 0;//清除计数
-  rec3_end_flag = 0;//清除接收结束标志�?????
-  memset(rx3_buffer,0,rx3_len);
-  HAL_UART_Receive_DMA(&huart3,rx3_buffer,BUFFER_SIZE);//重新打开DMA接收
+  rx_len = 0;//清除计数
+  rec_end_flag = 0;//清除接收结束标志�???????
+  memset(rx_buffer, 0, rx_len);
+  HAL_UART_Receive_DMA(&huart1, rx_buffer, BUFFER_SIZE);//重新打开DMA接收
 }
 /* USER CODE END FunctionPrototypes */
 
@@ -244,7 +244,8 @@ void StartTaskMotor(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    check_timeout();
+//    check_timeout();
+//    motorInfo[0].TGT = -10;
     check_ENC(&motorInfo[0], &motorInfo[1]);
 //    plus_ADD(&motorInfo[0], &motorInfo[1]);
     incremental_PI_A(&motorInfo[0]);
@@ -290,10 +291,10 @@ void StartTaskUsart(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    if(rec3_end_flag)  //判断是否接收�??????1帧数�??????
+    if(rec_end_flag)  //判断是否接收�????????1帧数�????????
     {
       HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-      Usart3_Handle();
+      Usart_Handle();
     }
     osDelay(1);
   }

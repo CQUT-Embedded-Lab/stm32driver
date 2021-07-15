@@ -1584,7 +1584,7 @@ typedef struct
   * @brief  Macro to configure the External High Speed oscillator (HSE) Predivision factor for PLL.
   * @note   Predivision factor can not be changed if PLL is used as system clock
   *         In this case, you have to select another source of the system clock, disable the PLL and
-  *         then show_info the HSE predivision factor.
+  *         then change the HSE predivision factor.
   * @param  __HSE_PREDIV_VALUE__ specifies the division value applied to HSE.
   *         This parameter must be a number between RCC_HSE_PREDIV_DIV1 and RCC_HSE_PREDIV_DIV16.
   */
@@ -1594,7 +1594,7 @@ typedef struct
   * @brief  Macro to configure the External High Speed oscillator (HSE) Predivision factor for PLL.
   * @note   Predivision factor can not be changed if PLL is used as system clock
   *         In this case, you have to select another source of the system clock, disable the PLL and
-  *         then show_info the HSE predivision factor.
+  *         then change the HSE predivision factor.
   * @param  __HSE_PREDIV_VALUE__ specifies the division value applied to HSE.
   *         This parameter must be a number between RCC_HSE_PREDIV_DIV1 and RCC_HSE_PREDIV_DIV2.
   */
@@ -1744,7 +1744,7 @@ typedef struct
   * @brief  Macro to configure the PLL2 & PLLI2S Predivision factor.
   * @note   Predivision factor can not be changed if PLL2 is used indirectly as system clock
   *         In this case, you have to select another source of the system clock, disable the PLL2 and PLLI2S and
-  *         then show_info the PREDIV2 factor.
+  *         then change the PREDIV2 factor.
   * @param  __HSE_PREDIV2_VALUE__ specifies the PREDIV2 value applied to PLL2 & PLLI2S.
   *         This parameter must be a number between RCC_HSE_PREDIV2_DIV1 and RCC_HSE_PREDIV2_DIV16.
   */

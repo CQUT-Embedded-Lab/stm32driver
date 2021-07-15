@@ -737,7 +737,7 @@ typedef struct
   *         is stable and can be used to clock the PLL and/or system clock.
   * @note   HSE state can not be changed if it is used directly or through the
   *         PLL as system clock. In this case, you have to select another source
-  *         of the system clock then show_info the HSE state (ex. disable it).
+  *         of the system clock then change the HSE state (ex. disable it).
   * @note   The HSE is stopped by hardware when entering STOP and STANDBY modes.
   * @note   This function reset the CSSON bit, so if the clock security system(CSS)
   *         was previously enabled you have to enable it again after calling this
@@ -1198,9 +1198,9 @@ void              HAL_RCC_CSSCallback(void);
   * @{
   */
 
-/* Disable Backup domain write protection state show_info timeout */
+/* Disable Backup domain write protection state change timeout */
 #define RCC_DBP_TIMEOUT_VALUE          100U    /* 100 ms */
-/* LSE state show_info timeout */
+/* LSE state change timeout */
 #define RCC_LSE_TIMEOUT_VALUE          LSE_STARTUP_TIMEOUT
 #define CLOCKSWITCH_TIMEOUT_VALUE      5000    /* 5 s    */
 #define HSE_TIMEOUT_VALUE              HSE_STARTUP_TIMEOUT

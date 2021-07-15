@@ -1,5 +1,6 @@
 # stm32driver
 stm32底盘电机驱动  
+- 嵌入式实验室版本+L298N  
 ![avatar](./Image/0.jpg)
 ## 一、功能
 - 1、搭载FreeRTOS
@@ -101,14 +102,14 @@ int fputc(int ch, FILE *f){
   return ch;
 }
 #endif
-volatile uint8_t rx3_len = 0;  // 接收数据的长度
-volatile uint8_t rec3_end_flag = 0;  // 数据接收完成标记
-uint8_t rx3_buffer[BUFFER_SIZE] = {0};  // 接收数据缓存数组
+volatile uint8_t rx_len = 0;  // 接收数据的长度
+volatile uint8_t rec_end_flag = 0;  // 数据接收完成标记
+uint8_t rx_buffer[BUFFER_SIZE] = {0};  // 接收数据缓存数组
 /* USER CODE END 0 */
 ```
 ```c
 /* USER CODE BEGIN 1 */
-void Usart3_IDLE(void) {  //USART的IDLE接收
+void Usart_IDLE(void) {  //USART的IDLE接收
   uint32_t tmp_flag = 0;
   uint32_t temp;
   tmp_flag = __HAL_UART_GET_FLAG(&huart3, UART_FLAG_IDLE);  // 获取IDLE标志
@@ -116,11 +117,11 @@ void Usart3_IDLE(void) {  //USART的IDLE接收
     __HAL_UART_CLEAR_IDLEFLAG(&huart3);  // 清除标志位
     HAL_UART_DMAStop(&huart3);  // 停止DMA传输
     temp  =  __HAL_DMA_GET_COUNTER(&hdma_usart3_rx);  // 获取DMA中未传输的数据个数
-    rx3_len =  BUFFER_SIZE - temp;  // 总计数减去未传输的数据个数，得到已经接收的数据个数
-    rec3_end_flag = 1;  // 接受完成标志位置1
+    rx_len =  BUFFER_SIZE - temp;  // 总计数减去未传输的数据个数，得到已经接收的数据个数
+    rec_end_flag = 1;  // 接受完成标志位置1
   }
 }
-void DMA_Usart3_Send(uint8_t *buf,uint8_t len) {  // 串口发送封装
+void DMA_Usart_Send(uint8_t *buf,uint8_t len) {  // 串口发送封装
   if(HAL_UART_Transmit_DMA(&huart3,buf,len) != HAL_OK) {  // 判断是否发送正常，如果出现异常则进入异常中断函数
     Error_Handler();
   }
@@ -130,11 +131,11 @@ void DMA_Usart3_Send(uint8_t *buf,uint8_t len) {  // 串口发送封装
 - usart.h
 ```c
 /* USER CODE BEGIN Prototypes */
-extern volatile uint8_t rx3_len;  // 接收数据的长度
-extern volatile uint8_t rec3_end_flag; // 数据接收完成标志
-extern uint8_t rx3_buffer[BUFFER_SIZE];  // 接收数据缓存数组
-void DMA_Usart3_Send(uint8_t *buf,uint8_t len);  // 串口发送封装
-void Usart3_IDLE(void);
+extern volatile uint8_t rx_len;  // 接收数据的长度
+extern volatile uint8_t rec_end_flag; // 数据接收完成标志
+extern uint8_t rx_buffer[BUFFER_SIZE];  // 接收数据缓存数组
+void DMA_Usart_Send(uint8_t *buf,uint8_t len);  // 串口发送封装
+void Usart_IDLE(void);
 /* USER CODE END Prototypes */
 ```
 - stm32f1xx_it.c
@@ -145,7 +146,7 @@ void Usart3_IDLE(void);
 ```
 ```c
 /* USER CODE BEGIN USART3_IRQn 0 */
-Usart3_IDLE();
+Usart_IDLE();
 /* USER CODE END USART3_IRQn 0 */
 ```
 - main.c
@@ -153,7 +154,7 @@ Usart3_IDLE();
 /* USER CODE BEGIN 2 */
   // Start usart3
   __HAL_UART_ENABLE_IT(&huart3, UART_IT_IDLE);
-  HAL_UART_Receive_DMA(&huart3,rx3_buffer,BUFFER_SIZE);
+  HAL_UART_Receive_DMA(&huart3,rx_buffer,BUFFER_SIZE);
   /* USER CODE END 2 */
 ```
 - freertos.c
@@ -171,9 +172,9 @@ void StartTaskUsart(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    if(rec3_end_flag) {  //判断是否完成接收
+    if(rec_end_flag) {  //判断是否完成接收
       HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);  // DEBUG
-      Usart3_Handle();
+      Usart_Handle();
     }
     osDelay(1);
   }
@@ -181,13 +182,13 @@ void StartTaskUsart(void *argument)
 }
 ```
 ```c
-void Usart3_Handle() {  // USART处理函数
-  user_API(rx3_buffer, rx3_len);  // 对数据进行分析
+void Usart_Handle() {  // USART处理函数
+  user_API(rx_buffer, rx_len);  // 对数据进行分析
 
-  rx3_len = 0;  // 清除计数
-  rec3_end_flag = 0;  // 清除接收结束标志
-  memset(rx3_buffer,0,rx3_len);
-  HAL_UART_Receive_DMA(&huart3,rx3_buffer,BUFFER_SIZE);  // 重新打开DMA接收
+  rx_len = 0;  // 清除计数
+  rec_end_flag = 0;  // 清除接收结束标志
+  memset(rx_buffer,0,rx_len);
+  HAL_UART_Receive_DMA(&huart3,rx_buffer,BUFFER_SIZE);  // 重新打开DMA接收
 }
 ```
 ### 3、I2C显示屏

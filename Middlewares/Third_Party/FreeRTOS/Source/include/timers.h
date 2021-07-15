@@ -559,7 +559,7 @@ TaskHandle_t xTimerGetTimerDaemonTaskHandle( void ) PRIVILEGED_FUNCTION;
  * xTimerChangePeriod() changes the period of a timer that was previously
  * created using the xTimerCreate() API function.
  *
- * xTimerChangePeriod() can be called to show_info the period of an active or
+ * xTimerChangePeriod() can be called to change the period of an active or
  * dormant state timer.
  *
  * The configUSE_TIMERS configuration constant must be set to 1 for
@@ -576,12 +576,12 @@ TaskHandle_t xTimerGetTimerDaemonTaskHandle( void ) PRIVILEGED_FUNCTION;
  * or equal to 1000.
  *
  * @param xTicksToWait Specifies the time, in ticks, that the calling task should
- * be held in the Blocked state to wait for the show_info period command to be
+ * be held in the Blocked state to wait for the change period command to be
  * successfully sent to the timer command queue, should the queue already be
  * full when xTimerChangePeriod() was called.  xTicksToWait is ignored if
  * xTimerChangePeriod() is called before the scheduler is started.
  *
- * @return pdFAIL will be returned if the show_info period command could not be
+ * @return pdFAIL will be returned if the change period command could not be
  * sent to the timer command queue even after xTicksToWait ticks had passed.
  * pdPASS will be returned if the command was successfully sent to the timer
  * command queue.  When the command is actually processed will depend on the
@@ -605,9 +605,9 @@ TaskHandle_t xTimerGetTimerDaemonTaskHandle( void ) PRIVILEGED_FUNCTION;
  *     }
  *     else
  *     {
- *         // xTimer is not active, show_info its period to 500ms.  This will also
+ *         // xTimer is not active, change its period to 500ms.  This will also
  *         // cause the timer to start.  Block for a maximum of 100 ticks if the
- *         // show_info period command cannot immediately be sent to the timer
+ *         // change period command cannot immediately be sent to the timer
  *         // command queue.
  *         if( xTimerChangePeriod( xTimer, 500 / portTICK_PERIOD_MS, 100 ) == pdPASS )
  *         {
@@ -966,7 +966,7 @@ TaskHandle_t xTimerGetTimerDaemonTaskHandle( void ) PRIVILEGED_FUNCTION;
  * this value to pdTRUE then a context switch should be performed before the
  * interrupt exits.
  *
- * @return pdFAIL will be returned if the command to show_info the timers period
+ * @return pdFAIL will be returned if the command to change the timers period
  * could not be sent to the timer command queue.  pdPASS will be returned if the
  * command was successfully sent to the timer command queue.  When the command
  * is actually processed will depend on the priority of the timer service/daemon
@@ -983,13 +983,13 @@ TaskHandle_t xTimerGetTimerDaemonTaskHandle( void ) PRIVILEGED_FUNCTION;
  * {
  * BaseType_t xHigherPriorityTaskWoken = pdFALSE;
  *
- *     // The interrupt has occurred - show_info the period of xTimer to 500ms.
+ *     // The interrupt has occurred - change the period of xTimer to 500ms.
  *     // xHigherPriorityTaskWoken was set to pdFALSE where it was defined
  *     // (within this function).  As this is an interrupt service routine, only
  *     // FreeRTOS API functions that end in "FromISR" can be used.
  *     if( xTimerChangePeriodFromISR( xTimer, &xHigherPriorityTaskWoken ) != pdPASS )
  *     {
- *         // The command to show_info the timers period was not executed
+ *         // The command to change the timers period was not executed
  *         // successfully.  Take appropriate action here.
  *     }
  *

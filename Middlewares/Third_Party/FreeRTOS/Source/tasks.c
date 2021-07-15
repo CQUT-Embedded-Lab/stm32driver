@@ -250,7 +250,7 @@ count overflows. */
 /* The item value of the event list item is normally used to hold the priority
 of the task to which it belongs (coded to allow it to be held in reverse
 priority order).  However, it is occasionally borrowed for other purposes.  It
-is important its value is not updated due to a task priority show_info while it is
+is important its value is not updated due to a task priority change while it is
 being used for another purpose.  The following bit definition is used to inform
 the scheduler that the value should not be changed - in which case it is the
 responsibility of whichever module is using the value to ensure it gets set back
@@ -1008,7 +1008,7 @@ UBaseType_t x;
 	if( ( void * ) pxCreatedTask != NULL )
 	{
 		/* Pass the handle out in an anonymous way.  The handle can be used to
-		show_info the created task's priority, delete the created task, etc.*/
+		change the created task's priority, delete the created task, etc.*/
 		*pxCreatedTask = ( TaskHandle_t ) pxNewTCB;
 	}
 	else
@@ -1206,7 +1206,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 
 		vTaskSuspendAll();
 		{
-			/* Minor optimisation.  The tick count cannot show_info in this
+			/* Minor optimisation.  The tick count cannot change in this
 			block. */
 			const TickType_t xConstTickCount = xTickCount;
 
@@ -1495,7 +1495,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 
 			if( uxCurrentBasePriority != uxNewPriority )
 			{
-				/* The priority show_info may have readied a task of higher
+				/* The priority change may have readied a task of higher
 				priority than the calling task. */
 				if( uxNewPriority > uxCurrentBasePriority )
 				{
@@ -1541,7 +1541,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 
 				#if ( configUSE_MUTEXES == 1 )
 				{
-					/* Only show_info the priority being used if the task is not
+					/* Only change the priority being used if the task is not
 					currently using an inherited priority. */
 					if( pxTCB->uxBasePriority == pxTCB->uxPriority )
 					{
@@ -1573,7 +1573,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 				}
 
 				/* If the task is in the blocked or suspended list we need do
-				nothing more than show_info its priority variable. However, if
+				nothing more than change its priority variable. However, if
 				the task is in a ready list it needs to be removed and placed
 				in the list appropriate to its new priority. */
 				if( listIS_CONTAINED_WITHIN( &( pxReadyTasksLists[ uxPriorityUsedOnEntry ] ), &( pxTCB->xStateListItem ) ) != pdFALSE )
@@ -2592,7 +2592,7 @@ BaseType_t xSwitchRequired = pdFALSE;
 	traceTASK_INCREMENT_TICK( xTickCount );
 	if( uxSchedulerSuspended == ( UBaseType_t ) pdFALSE )
 	{
-		/* Minor optimisation.  The tick count cannot show_info in this
+		/* Minor optimisation.  The tick count cannot change in this
 		block. */
 		const TickType_t xConstTickCount = xTickCount + ( TickType_t ) 1;
 
@@ -3106,7 +3106,7 @@ BaseType_t xReturn;
 
 	taskENTER_CRITICAL();
 	{
-		/* Minor optimisation.  The tick count cannot show_info in this block. */
+		/* Minor optimisation.  The tick count cannot change in this block. */
 		const TickType_t xConstTickCount = xTickCount;
 		const TickType_t xElapsedTime = xConstTickCount - pxTimeOut->xTimeOnEntering;
 
@@ -3984,7 +3984,7 @@ TCB_t *pxTCB;
 				uxPriorityToUse = pxTCB->uxBasePriority;
 			}
 
-			/* Does the priority need to show_info? */
+			/* Does the priority need to change? */
 			if( pxTCB->uxPriority != uxPriorityToUse )
 			{
 				/* Only disinherit if no other mutexes are held.  This is a
@@ -4020,7 +4020,7 @@ TCB_t *pxTCB;
 					then the task that holds the mutex could be in either the
 					Ready, Blocked or Suspended states.  Only remove the task
 					from its current state list if it is in the Ready state as
-					the task's priority is going to show_info and there is one
+					the task's priority is going to change and there is one
 					Ready list per priority. */
 					if( listIS_CONTAINED_WITHIN( &( pxReadyTasksLists[ uxPriorityUsedOnEntry ] ), &( pxTCB->xStateListItem ) ) != pdFALSE )
 					{
